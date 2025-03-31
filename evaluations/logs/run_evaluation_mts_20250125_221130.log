@@ -1,0 +1,19 @@
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO - Evaluation Parameters:
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO - Evalation dir: ./evaluations
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO - Evaluation Name: mts
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO - Model: deepseek/deepseek-chat
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO - Model Base URL: None
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO - Temperature: 0.7
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO - Tree Search Settings:
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO -   Max Expansions: 3
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO -   Max Iterations: 100
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO -   Min Finished Nodes: 3
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO -   Provide Feedback: True
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO -   Debate: False
+2025-01-25 22:11:30,114 - moatless.benchmark.run_evaluation - INFO - Max Cost: 0.5
+2025-01-25 22:11:30,115 - moatless.benchmark.run_evaluation - INFO - Max iterations: 100
+2025-01-25 22:11:30,115 - moatless.benchmark.run_evaluation - INFO - Number of Workers: 1
+2025-01-25 22:11:30,115 - moatless.benchmark.run_evaluation - INFO - Use Testbed: False
+2025-01-25 22:11:30,115 - moatless.benchmark.run_evaluation - INFO - Resolved By: None
+2025-01-25 22:11:30,115 - moatless.benchmark.run_evaluation - INFO - Instance IDs: None
+2025-01-25 22:11:30,115 - moatless.benchmark.evaluation - INFO - Evaluation directory: ./evaluations/mts
