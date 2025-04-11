@@ -1,0 +1,686 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>SWE-Bench-Verified-Mini评测</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: undefined; }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-transparentGray { background-color: undefined; }
+.select-value-color-translucentGray { background-color: undefined; }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1ce6afa8-d9b7-80cd-a0ac-fc9f48b9a71c" class="page sans"><header><h1 class="page-title">SWE-Bench-Verified-Mini评测</h1><p class="page-description"></p></header><div class="page-body"><p id="1ce6afa8-d9b7-8065-a710-c06983a418a9" class="">with DeepSeek-V3 (0328)</p><p id="1d16afa8-d9b7-8024-8c28-f21a8efb428a" class="">目前iterations=20， max_finished_nodes=2，因为官网是step = 20</p><p id="1d16afa8-d9b7-80f1-a8bd-fce532b4d432" class="">减少baseline时间和成本</p><h1 id="1d26afa8-d9b7-80c1-bcff-dbf1e7d3508f" class="">Ideas</h1><h2 id="1d26afa8-d9b7-809b-8ffe-f0d1c2eda369" class="">研究方向：经验池</h2><ul id="1d26afa8-d9b7-801d-9e1a-fe25cf81c8d6" class="toggle"><li><details open=""><summary>Agent细分</summary><ul id="1d26afa8-d9b7-800f-85ff-fbf0177fd97b" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Instructor-Assistant</span><div class="indented"><ul id="1d26afa8-d9b7-80b7-a731-c2a7e4b13384" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">优化prompt</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-808f-aca5-fa31840e51d4" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">分出文件夹</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-80f4-bcec-f89c7d355bbd" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">跑出pass rate</span><div class="indented"></div></li></ul></div></li></ul><ul id="1d26afa8-d9b7-8046-a743-ce7abd68b202" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Tester</span><div class="indented"><ul id="1d26afa8-d9b7-8068-8e63-c0f22c909826" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">优化prompt</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-80dc-b295-deaf1f01ea14" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">分出文件夹</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8020-b308-e5e10511f395" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">跑出pass rate</span><div class="indented"></div></li></ul></div></li></ul><ul id="1d26afa8-d9b7-80b5-bc67-edce52523078" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Reproducer</span><div class="indented"><ul id="1d26afa8-d9b7-8048-b3fd-f3125e6f8160" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">优化prompt</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8084-854c-c258a977c223" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">跑出pass rate</span><div class="indented"></div></li></ul></div></li></ul></details></li></ul><ul id="1d26afa8-d9b7-8032-bc82-e15fa0885e2f" class="toggle"><li><details open=""><summary>经验池构造</summary><ul id="1d26afa8-d9b7-80dc-ae36-c9190910c5c0" class="toggle"><li><details open=""><summary>基础层次性经验池（thought-level）</summary><ul id="1d26afa8-d9b7-801a-9172-dc5718de92ab" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">优化prompt</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8021-86e4-e6ddbced5ddc" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">跑出pass rate</span><div class="indented"></div></li></ul></details></li></ul><ul id="1d26afa8-d9b7-80c0-9898-d460490eb6e5" class="toggle"><li><details open=""><summary>环境-thought-demo经验池</summary><ul id="1d26afa8-d9b7-8021-b22d-c0d1f7023243" class="toggle"><li><details open=""><summary>环境经验池</summary><ul id="1d26afa8-d9b7-8053-b4fb-fb1d4b9019a0" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">优化prompt</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8002-aa8a-d0f00d48ff5f" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">收集经验</span><div class="indented"><ul id="1d26afa8-d9b7-8057-b4e1-e74abf6583d1" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">迭代一次数据集收集所有探索到的环境信息，记录pass rate和每个patch的nodes</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-80e8-8d80-cfb7f855143d" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">迭代第二次数据集收集所有探索到的环境信息，记录pass rate和每个patch的nodes</span><div class="indented"></div></li></ul></div></li></ul></details></li></ul><ul id="1d26afa8-d9b7-8053-a132-d18715041e81" class="toggle"><li><details open=""><summary>thought经验池</summary><ul id="1d26afa8-d9b7-8017-a64c-e5e9b5d157de" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">迭代完一个instance总结成功/失败经验</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-801d-90fe-fb0bf124a140" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked"><a href="https://docs.google.com/presentation/d/15LkEjy7zCdy_7kA6YwVkq1-D5JpS4E5qgKV2CdyS1bc/edit#slide=id.g341042e8875_0_64">让模型比较同一颗search tree上成功的rollout和不成功的rollout，总结经验</a></span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8051-afa1-d36a9049bb65" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">迭代完一个数据集，根据难易程度（解决与否和rollout长度）总结经验，开始下一次迭代（只迭代没有完成的）</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8081-aebb-de2cee6566bf" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked"><a href="https://docs.google.com/presentation/d/15LkEjy7zCdy_7kA6YwVkq1-D5JpS4E5qgKV2CdyS1bc/edit#slide=id.g335df36b14e_1_18">迭代完一个数据集，根据难易程度（解决与否和rollout长度），比较相同难易程度的错误与成功轨迹总结经验，开始下一次迭代</a></span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-809a-8a33-c91354f688c0" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked"><a href="https://arxiv.org/pdf/2312.17025">shortcut经验</a></span><div class="indented"></div></li></ul></details></li></ul><ul id="1d26afa8-d9b7-8039-9815-fea7d64696cc" class="toggle"><li><details open=""><summary>demo经验池</summary><ul id="1d26afa8-d9b7-8033-9b07-cb7e501aa187" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">动态demonstration，每次完成一个action，让agent判断是否需要更新demonstration池</span><div class="indented"></div></li></ul></details></li></ul></details></li></ul></details></li></ul><ul id="1d26afa8-d9b7-80aa-8d1a-f34c4147821b" class="toggle"><li><details open=""><summary>Plan</summary><ul id="1d26afa8-d9b7-8054-a21f-c0ec6c5764e3" class="toggle"><li><details open=""><summary><a href="https://arxiv.org/pdf/2502.12018">AoT</a></summary><ul id="1d26afa8-d9b7-8097-9739-daf934241bec" class="to-do-list"><li><div class="checkbox checkbox-on"></div> <span class="to-do-children-checked">优化prompt</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8036-91b3-d6a50a6673ba" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">跑pass rate</span><div class="indented"></div></li></ul></details></li></ul></details></li></ul><ul id="1d26afa8-d9b7-8053-82a6-ccdcc3fc583b" class="toggle"><li><details open=""><summary>结合起来</summary><ol type="1" id="1d26afa8-d9b7-8044-8ac6-f0a41d527200" class="numbered-list" start="1"><li>先比较<ul id="1d26afa8-d9b7-800f-89ef-c734bc822818" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Instructor-Assistant-Tester</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8058-90f7-e2dc6e1a9901" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Reproducer-Instructor-Assistant-Tester</span><div class="indented"></div></li></ul></li></ol><ol type="1" id="1d26afa8-d9b7-80dc-905e-c9b5686a70d8" class="numbered-list" start="2"><li>再比较<ol type="a" id="1d26afa8-d9b7-8010-b396-fe2524642dcc" class="numbered-list" start="1"><li>环境经验池</li></ol><ol type="a" id="1d26afa8-d9b7-80fc-b6a2-cce1daf394cf" class="numbered-list" start="2"><li>thought经验池</li></ol><ol type="a" id="1d26afa8-d9b7-8034-a4ae-f06ad6aff6ef" class="numbered-list" start="3"><li>demo经验池</li></ol></li></ol><p id="1d26afa8-d9b7-80ee-9348-cafddea6f9f1" class="">12组实验</p></details></li></ul><h2 id="1d26afa8-d9b7-808e-a98f-d856052c8a38" class="">研究方向：动作细分</h2><ol type="1" id="1d26afa8-d9b7-8036-b332-cd43a11067b5" class="numbered-list" start="1"><li>加上repograph类似的action，作为解决import问题的方法（现有图方法一般都基于ast分割成小片段之后再构建关系，import都是会考虑到的）</li></ol><ol type="1" id="1d26afa8-d9b7-805d-bb76-da82e0f65cc0" class="numbered-list" start="2"><li>借助论文的思路来优化打分的prompt部分、action的示例部分以及写在整体flow里面的action整体描述prompt，让action的描述之间有区分度</li></ol><ol type="1" id="1d26afa8-d9b7-8025-9c65-e452cd8b2eda" class="numbered-list" start="3"><li>一个一个action进行添加跑实验记录解决率（这样看成本和时间爆炸啊，要是中间某个action有不够那得整个重来，得首先一个一个加进去看看大体没有错再加）<ul id="1d26afa8-d9b7-80fe-9145-ff37d2bdc142" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">insert（按行号）</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8080-a619-df98824f6348" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">delete（按str匹配）</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8056-b45f-e13c85ec1abb" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">delete（按行号删除）</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8053-bb54-c7c3e6037ebf" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">replace（按代码块进行替换）</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-80c8-a0b7-e0a9e0b6203c" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">semantic search加上打分</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-8035-95de-e5dd8552dcce" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">findclass加上打分</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-80c6-989a-ce40b6e11478" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">viewcode加上打分</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-80fc-add2-c33fdc73e528" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">类graph方法帮助定位（解决需要找调用关系类问题，如import）</span><div class="indented"></div></li></ul><p id="1d26afa8-d9b7-8017-803f-e43f93c61ee8" class="">还有可能的action（DARS提供的思路）：</p><ul id="1d26afa8-d9b7-8026-9cda-c15825935fb0" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">append（需要加嘛？在testfile末尾直接加）</span><div class="indented"></div></li></ul><ul id="1d26afa8-d9b7-80a1-83fa-ce920a164ff9" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Undo Edit退回到上一次编辑</span><div class="indented"></div></li></ul></li></ol><p id="1d26afa8-d9b7-8036-a9ae-ea4716a7e453" class="">4.对于指标，可能需要统计打分之后整体的token长度衰减？</p><p id="1ce6afa8-d9b7-8030-bac3-ec057eec1004" class="">
+</p><p id="1ce6afa8-d9b7-8093-b8b8-e20796c0bb5b" class="">难易分析：</p><p id="ba92041f-ca7b-4b07-9d03-f021a0359075" class="">django__django-11815		中等（要改的行数比较多，先删后改）<br/>django__django-11880		简单（增加一行即可）<br/>django__django-11885		困难 （多函数多行）<br/>django__django-10914		简单（语义搜索找到大致位置，插入一条即可）<br/>django__django-12050		中等（删去多行再添加）<br/>django__django-11790		中等（找到具体class再增加）<br/>django__django-12155		中等（golden里面要改两个函数，但是swesearch只改了一个也通过了）<br/>django__django-9296		简单（添加了一个类里面的小函数）<br/>django__django-12708		困难（对test的插入很多）<br/>django__django-12713		中等（删去多行再添加多行）<br/>django__django-11999		简单（patch和test patch都是简单的添加几行）<br/>django__django-12143		简单<br/>django__django-12276		简单<br/>django__django-11951		简单（要改的地方很简单，swe-search却gg了）<br/>django__django-11964		困难（要改的地方很简单，但是整体解决率都不高，可能是生成test patch出现问题了）<br/>django__django-12193		中等（问题描述已经指明了错误行号，swesearch陷入action循环）<br/>django__django-11848		简单（对函数里面的year逻辑进行修正）<br/>django__django-11964		简单（问题描述指明了类和函数，但是search寄了，没能生成test patch）<br/>sphinx-doc__sphinx-8269	简单（swebench给了很长的test patch，但是search认为自己替换掉之后就可以不用生成testpatch了，已有的测试已经足够了）<br/>sphinx-doc__sphinx-8551	困难（修改两个文件）<br/>sphinx-doc__sphinx-8056	困难（问题描述中对具体位置描述模糊）<br/>sphinx-doc__sphinx-9367	简单<br/>sphinx-doc__sphinx-9281	中等（多函数）<br/>sphinx-doc__sphinx-7590	困难（多处修改，search的stringreplace通不过test导致动作loop）<br/>sphinx-doc__sphinx-7748	困难（修改超过五个函数）<br/>sphinx-doc__sphinx-7757	中等（问题描述需要用语义搜索，更改两到三处）<br/>sphinx-doc__sphinx-8475	简单（改两处两行）<br/>sphinx-doc__sphinx-9461	困难++（解决率为0，要改多文件多方法）<br/>sphinx-doc__sphinx-9698	简单（删除一行增加一行）<br/>sphinx-doc__sphinx-10323	中等（问题描述并没给出具体位置，需要语义搜索来找）<br/>sphinx-doc__sphinx-10435	中等（我认为除了要改两处和问题描述中latex语言比较多之外并不是很难，但是swesearch都寄了，他生成的第一处修改是对的，但是紧接着就针对这一处修改疯狂写测试脚本，结果脚本写不出来，第二处修改也没进行）<br/>psf__requests-2317			简单（增删一行）<br/>sympy__sympy-11618		简单（问题描述简洁，大段插入即可）<br/>sympy__sympy-12419		中等（多处删改，容易陷入action循环）<br/>sympy__sympy-22714		简单（删改一行）<br/>sympy__sympy-15599		中等（多处修改）<br/>scikit-learn__scikit-learn-14894	简单（同一处多行删添）<br/>scikit-learn__scikit-learn-10297	中等（多处增删）<br/>scikit-learn__scikit-learn-13439	简单（同函数增删）<br/>astropy__astropy-13033			中等（多处删改，但问题描述中提到了出问题的类）<br/>astropy__astropy-12907			中等（就一处删改很简单，解决率的原因可能在于测试patch的编写）<br/>pydata__xarray-4094			简单（就一处要改，但是解决率很低）<br/>matplotlib__matplotlib-23964	简单<br/>matplotlib__matplotlib-24149	简单（增加即可）<br/>matplotlib__matplotlib-23913	简单（三处修改，一次一次顺序进行）<br/>matplotlib__matplotlib-22719	简单（两处删添）<br/>pytest-dev__pytest-6202			简单（一处删添）<br/>pytest-dev__pytest-7205			简单（一处删添加一个import）<br/>pylint-dev__pylint-4604			中等（两个文件多处删改）<br/>pallets__flask-5014				简单（增加个if判断）<br/></p><p id="1d16afa8-d9b7-807f-a3d0-dc86c8c521a2" class="">
+</p><p id="1d16afa8-d9b7-8037-8670-e12a49a021ae" class="">mini：</p><p id="f144fda7-7e00-4c27-b370-22794783d631" class="">django__django-11790			简单（增添几行添加http属性即可）<br/>django__django-11815			中等（要改的行数比较多，先删后改）<br/>django__django-11848			简单（对函数里面的year逻辑进行修正）<br/>django__django-11880			简单（增加一行即可）<br/>django__django-11951			简单（要改的地方很简单，swe-search却gg了）<br/>django__django-11964			困难（要改的地方很简单，但是整体解决率都不高，可能是生成test patch出现问题了）<br/>django__django-11999			简单（patch和test patch都是简单的添加几行）<br/>django__django-12039			中等（修改多处，问题描述提供了可疑代码路径）<br/>django__django-12050			中等（删去多行再添加）<br/>django__django-12143			简单<br/>django__django-12155			中等（golden里面要改两个函数，但是swesearch只改了一个也通过了）<br/>django__django-12193			中等（问题描述已经指明了错误行号，swesearch陷入action循环）<br/>django__django-12209			简单（增加一行）<br/>django__django-12262			中等（test修改的很多，基础修改很少）<br/>django__django-12273			中等（也是test修改需求大）<br/>django__django-12276			略<br/>django__django-12304			中等（问题描述里面告诉了class的名字，也只要插入一行，但是有趣的是如果插入位置不对就会一直在同一个地方插入，moatless很固执，虽然它插入的那一句代码是完全正确的）<br/>django__django-12308			中等（提供了django.contrib.admin.utils.display_for_field，定位没有很大难度，但是test修改碰到难题）<br/>django__django-12325			困难（多文件）<br/>django__django-12406			困难（多文件，解决率为0）<br/>django__django-12708			困难（对test的插入很多）<br/>django__django-12713			中等（删去多行再添加多行）<br/>django__django-12774			中等（如果修改的不对但是test通过了怎么办？）<br/>django__django-9296			简单（添加了一个类里面的小函数）<br/>sphinx-doc__sphinx-10323		中等（问题描述并没给出具体位置，需要语义搜索来找）<br/>sphinx-doc__sphinx-10435		中等（我认为除了要改两处和问题描述中latex语言比较多之外并不是很难，但是swesearch都寄了，他生成的第一处修改是对的，但是紧接着就针对这一处修改疯狂写测试脚本，结果脚本写不出来，第二处修改也没进行）<br/>sphinx-doc__sphinx-10466		简单（修改简单，问题描述略复杂且长）<br/>sphinx-doc__sphinx-10673		困难（多文件多处）<br/>sphinx-doc__sphinx-11510		困难（问题描述过于复杂，但对于定位似乎没有影响？test failed ，结局率为0）<br/>sphinx-doc__sphinx-7590		困难（多处修改，search的stringreplace通不过test导致动作loop）<br/>sphinx-doc__sphinx-7748		困难（修改超过五个函数）<br/>sphinx-doc__sphinx-7757		中等（问题描述需要用语义搜索，更改两到三处）<br/>sphinx-doc__sphinx-7985		简单（我认为简单，但是通过率很低仅3）<br/>sphinx-doc__sphinx-8035		困难（同文件多处）<br/>sphinx-doc__sphinx-8056		困难（问题描述中对具体位置描述模糊）<br/>sphinx-doc__sphinx-8265		困难（问题描述定位困难，解决率为0）<br/>sphinx-doc__sphinx-8269		简单（swebench给了很长的test patch，但是search认为自己替换掉之后就可以不用生成testpatch了，已有的测试已经足够了）<br/>sphinx-doc__sphinx-8475		简单（改两处两行）<br/>sphinx-doc__sphinx-8548		困难（多文件长篇幅修改，解决率为0）<br/>sphinx-doc__sphinx-8551		        困难（修改两个文件）<br/>sphinx-doc__sphinx-8638		困难（要改的地方很少，但是解决率为0）<br/>sphinx-doc__sphinx-8721		简单（一处修改）<br/>sphinx-doc__sphinx-9229		困难（解决率0%）<br/>sphinx-doc__sphinx-9230		困难（解决率4%，但是只要改一行就行，原因在于定位不准，semantic search搜出来的是跟golden patch相去甚远的文件）<br/>sphinx-doc__sphinx-9281		中等（多函数）<br/>sphinx-doc__sphinx-9320		简单（添加几处即可）<br/>sphinx-doc__sphinx-9367		简单<br/>sphinx-doc__sphinx-9461		困难++（解决率为0，要改多文件多方法）<br/>sphinx-doc__sphinx-9698		简单（删除一行增加一行）<br/></p><h2 id="1ce6afa8-d9b7-802e-9c04-e5ff85f64a17" class="">Django</h2><h2 id="1ce6afa8-d9b7-8097-bde2-f0bf711ded02" class="">django__django-11790</h2><h3 id="1ce6afa8-d9b7-80ba-898b-cb4ec3860c07" class="">完成情况</h3><p id="1ce6afa8-d9b7-80ba-9ea5-d7f27142fd2b" class="">resolved = True</p><h2 id="1ce6afa8-d9b7-8094-a6d3-c1544b20ce87" class="">django__django-11815</h2><h3 id="1ce6afa8-d9b7-8094-a052-e547f3da2a76" class="">完成情况</h3><p id="1ce6afa8-d9b7-8005-8746-d75a4576f1ab" class="">failed了</p><h2 id="1d06afa8-d9b7-800e-98a5-f066b7531a93" class="">django__django-11848</h2><h3 id="1d06afa8-d9b7-80bd-b7cf-cbb25abc8ff0" class="">完成情况</h3><p id="1d06afa8-d9b7-8072-83f5-dc47450e2416" class="">resolved = True</p><h2 id="1d16afa8-d9b7-80d8-a25b-e34c402f9a96" class="">django__django-11880</h2><h3 id="1d16afa8-d9b7-80b7-8741-cbf7e08f0814" class="">完成情况</h3><p id="1d16afa8-d9b7-8077-9f47-c2ff23c6cd5d" class="">resolved = True</p><h2 id="1d16afa8-d9b7-80ba-af87-c65d4a88f637" class="">django__django-11885</h2><h3 id="1d16afa8-d9b7-80b3-a18c-e940d1ae7628" class="">完成情况</h3><p id="1d16afa8-d9b7-80aa-89ab-fd1ea2d2076a" class="">False，生成patch但没通过</p><h2 id="1d16afa8-d9b7-8039-ab4a-c9cd3573afa9" class="">django__django-11951</h2><h3 id="1d16afa8-d9b7-8007-aabe-fe9e52095d5b" class="">完成情况</h3><p id="1d16afa8-d9b7-80a1-8b25-fad6717aae7d" class="">resolve = True，这个原SWE-Search没有解决</p><h2 id="1d16afa8-d9b7-8084-ad74-c22ed4af24f9" class="">django__django-11964</h2><h3 id="1d16afa8-d9b7-8010-b1fc-e5556874de76" class="">完成情况</h3><p id="1d16afa8-d9b7-809a-9f20-d69392967b7b" class="">resolved = False</p><p id="1d16afa8-d9b7-80a8-bd6b-da8533fdcd7b" class="">生成不了patch</p><h2 id="1d16afa8-d9b7-8098-845a-d469bee1284c" class="">django__django-12039</h2><h3 id="1d16afa8-d9b7-804a-930c-df059f774bbc" class="">完成情况</h3><p id="1d16afa8-d9b7-801f-bc55-cc1cba378c09" class="">resolve = True，这个原SWE-Search没有解决</p><h2 id="1d16afa8-d9b7-80d6-8ebc-e52521ecbb91" class="">django__django-12050</h2><h3 id="1d16afa8-d9b7-808a-a13a-c18348e3bf2d" class="">完成情况</h3><p id="1d16afa8-d9b7-804b-a76a-c96d0490cb61" class="">resolve = True</p><h2 id="1d16afa8-d9b7-8088-8441-c8f38114ef70" class="">django__django-12143</h2><h3 id="1d16afa8-d9b7-804a-8c78-cc2c455c88a5" class="">完成情况</h3><p id="1d16afa8-d9b7-80ea-a815-e3af216eee16" class="">resolve = True</p><h2 id="1d16afa8-d9b7-809e-88ec-e5f0eb5660ad" class="">django__django-12155</h2><h3 id="1d26afa8-d9b7-80df-9ed7-db16c02e814f" class="">完成情况</h3><p id="1d26afa8-d9b7-800a-b556-ee1b6856bc93" class="">resolved = False</p><p id="1d26afa8-d9b7-80aa-a09c-ed6f89473200" class="">没有patch，但原SWE-Search跑出来了，可能是超参数太小了</p><h2 id="1d26afa8-d9b7-8064-8f05-fa93f32b6c6c" class="">django__django-12193</h2><h3 id="1d26afa8-d9b7-808a-9dee-e10e485b7dd2" class="">完成情况</h3><p id="1d26afa8-d9b7-80b7-8020-ec82723e4bd8" class="">resolved = False</p><p id="1d26afa8-d9b7-802f-8289-c7657da16c7e" class="">有patch没通过</p><h2 id="1d26afa8-d9b7-8008-810c-e5a8630eae9c" class="">django__django-12209</h2><h3 id="1d26afa8-d9b7-800e-ab9f-db4fcc0e179e" class="">完成情况</h3><p id="1d26afa8-d9b7-805e-8994-e3939014a160" class="">resolved = False</p><p id="1d26afa8-d9b7-80bc-9dc4-fbb19b3dfb56" class="">没有patch，但原SWE-Search跑出来了，可能是超参数太小了</p><h2 id="1d26afa8-d9b7-80d3-8f82-f1f43b396aa2" class="">django__django-12262</h2><h3 id="1d26afa8-d9b7-8057-94c4-d4c03c3033ee" class="">完成情况</h3><p id="1d26afa8-d9b7-80c0-a9ba-cd091e59a620" class="">resolved = False</p><p id="1d26afa8-d9b7-80a6-bdc7-df12a5db394c" class="">生成patch，但感觉模型一直致力于复现bug</p><h2 id="1d26afa8-d9b7-8007-924f-c41245a9b25e" class="">django__django-12273</h2><h3 id="1d26afa8-d9b7-805d-9959-d258f95a7b60" class="">完成情况</h3><p id="1d26afa8-d9b7-80b0-b674-dfd510644d84" class="">resolved = True，这个原SWE-Search没有解决</p><h2 id="1d26afa8-d9b7-803f-919d-cec5f58275c8" class="">django__django-12276</h2><h3 id="1d26afa8-d9b7-806a-97a8-dc06540b9942" class="">完成情况</h3><p id="1d26afa8-d9b7-8050-b199-f5e979b5f8c6" class="">resolved=True，</p><h2 id="1d26afa8-d9b7-8009-92d4-e3866dddb5c6" class="">django__django-12304</h2><h3 id="1d26afa8-d9b7-80e8-9aae-c248bfef33d6" class="">完成情况</h3><p id="1d26afa8-d9b7-8046-b58c-c80ff60fdd29" class="">resolved=False</p><h2 id="1d26afa8-d9b7-803f-b86c-c3fdf02cc0a8" class="">django__django-12308</h2><h3 id="1d26afa8-d9b7-8091-965d-c289d5b6e97a" class="">完成情况</h3><p id="1d26afa8-d9b7-80ea-a9e7-e2f0d7d64505" class="">resolved=False，解决了一个FailToPass</p><h2 id="1d26afa8-d9b7-8042-9237-eb5eaf192eba" class="">django__django-12325</h2><h3 id="1d26afa8-d9b7-8074-ae42-f5370b2aba4c" class="">完成情况</h3><p id="1d26afa8-d9b7-8010-b14b-d5ee589e5e09" class="">resolved=？，它测试结果是全通过了，但它没有生成一个patch</p><h2 id="1d26afa8-d9b7-8000-89a8-e191d4ac393b" class="">django__django-12406</h2><h3 id="1d26afa8-d9b7-80d6-bc75-d464812881c4" class="">完成情况</h3></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
